@@ -3,11 +3,14 @@ from __future__ import absolute_import, unicode_literals
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.generic import TemplateView
 
 from search import views as search_views
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
+from wagtail.contrib.wagtailapi import urls as wagtailapi_urls
+
 
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
@@ -20,11 +23,14 @@ urlpatterns = [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
-    url(r'', include(wagtail_urls)),
 
     # Alternatively, if you want Wagtail pages to be served from a subpath
     # of your site, rather than the site root:
     #    url(r'^pages/', include(wagtail_urls)),
+    #rest api and wagtail api url
+    url(r'^api/', include(wagtailapi_urls)),
+    # Ensure that the wagtailapi_urls line appears above the default Wagtail page serving route
+    url(r'', include(wagtail_urls)),
 ]
 
 
